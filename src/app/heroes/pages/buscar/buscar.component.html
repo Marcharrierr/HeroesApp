@@ -1,0 +1,56 @@
+<div fxLayout="column">
+  <div>
+    <h1>Buscador de héroes:</h1>
+  </div>
+  <div fxLayout="column" >
+    <h3>Buscador</h3>
+    {{termino}}
+    <br>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label ng-deep >Number</mat-label>
+      <input type="text"
+             placeholder="Pick one"
+             aria-label="Number"
+             matInput
+             [(ngModel)]="termino"
+             [matAutocomplete]="auto"
+
+             (input)="buscando()">
+      <mat-autocomplete (optionSelected)="opcionSeleccionada( $event )"
+                        autoActiveFirstOption
+                        #auto="matAutocomplete">
+
+              <!-- Muestra las opciones del autocomplete -->
+               <!-- si el arreglo llega a ser de 0 elementos,
+                colocar "No se encontró su búsqueda" y se enviará un string vacío
+                (hacer valudación en el ts) -->
+        <mat-option *ngFor="let heroe of heroes" [value]="heroe">
+          {{heroe.superhero}}
+        </mat-option>
+        <mat-option value="hayError"
+                    *ngIf="heroes.length === 0 && termino.trim().length>0"
+                     >
+          No se encontró el término {{termino}}
+        </mat-option>
+        <div >
+
+        </div>
+      </mat-autocomplete>
+    </mat-form-field>
+
+
+  </div>
+
+  <div>
+    <pre>
+      {{heroeSeleccionado | json}}
+    </pre>
+  </div>
+  <div *ngIf="heroeSeleccionado" >
+    <app-heroe-tarjeta [heroe]="heroeSeleccionado" ></app-heroe-tarjeta>
+  </div>
+
+
+</div>
+
